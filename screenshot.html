@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>protocols-watch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1e1e2e; font-family: 'Fira Code', monospace; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 40px 20px; }
+  .terminal {
+    background: #181825;
+    border-radius: 12px;
+    padding: 24px 28px;
+    color: #cdd6f4;
+    font-size: 13px;
+    line-height: 1.5;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    max-width: 1080px;
+    width: 100%;
+  }
+  .cyan { color: #89dceb; }
+  .green { color: #a6e3a1; }
+  .yellow { color: #f9e2af; }
+  .red { color: #f38ba8; }
+  .dim { color: #6c7086; }
+  .magenta { color: #cba6f7; }
+  .blue { color: #89b4fa; }
+  .bold { font-weight: 600; }
+  .section-title { color: #cdd6f4; font-weight: 600; margin-top: 12px; margin-bottom: 6px; }
+  .agg-row { display: flex; gap: 20px; margin-bottom: 6px; flex-wrap: wrap; }
+  .agg-label { color: #6c7086; font-size: 10.5px; }
+  .agg-value { color: #cdd6f4; font-size: 14px; font-weight: 600; }
+  pre { font-family: 'Fira Code', monospace; font-size: 12.2px; line-height: 1.52; color: #cdd6f4; margin-top: 8px; }
+  .cmd { background: #11111b; border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 12px; }
+  .cmd .line { color: #a6e3a1; }
+  .notes { margin-top: 12px; color: #6c7086; font-size: 11px; line-height: 1.5; }
+  .prompt { margin-top: 16px; color: #a6e3a1; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="terminal">
+  <div class="section-title">-- Kernel protocol table  /proc/net/protocols --</div>
+  <div class="agg-row">
+    <div>
+      <div class="agg-label">protocols</div>
+      <div class="agg-value cyan">18</div>
+    </div>
+    <div>
+      <div class="agg-label">active</div>
+      <div class="agg-value green">11</div>
+    </div>
+    <div>
+      <div class="agg-label">sockets</div>
+      <div class="agg-value yellow">208</div>
+    </div>
+    <div>
+      <div class="agg-label">memory</div>
+      <div class="agg-value">24576</div>
+    </div>
+    <div>
+      <div class="agg-label">press</div>
+      <div class="agg-value red">1</div>
+    </div>
+    <div>
+      <div class="agg-label">slab</div>
+      <div class="agg-value cyan">14</div>
+    </div>
+  </div>
+  <div class="agg-row">
+    <div><span class="agg-label">families: </span>
+      <span class="green">ipv4=6</span>
+      <span class="cyan"> ipv6=6</span>
+      <span class="yellow"> unix=2</span>
+      <span class="magenta"> netlink=1</span>
+      <span class="blue"> packet=1</span>
+      <span class="red"> xdp=1</span>
+      <span class="dim"> mctp=1</span>
+    </div>
+  </div>
+  <div class="agg-row">
+    <div><span class="agg-label">source: </span><span class="agg-value dim">demo (synthetic busy host)</span></div>
+  </div>
+
+  <div class="section-title">$ ./protocols-watch --demo</div>
+<pre>
+<span class="dim">  proto          family     size  socks    memory  press  maxhdr  slab  module   ops</span>
+<span class="dim">  -------------------------------------------------------------------------------------</span>
+  <span class="bold">TCP</span>            <span class="green">ipv4</span>        2304  <span class="green">    88</span>     16384 <span class="red">yes</span>        320  <span class="cyan">yes</span>  kernel   17/18
+  <span class="bold">UNIX-STREAM</span>    <span class="yellow">unix</span>        1024  <span class="green">    48</span>         - <span class="dim">NI</span>           0  <span class="cyan">yes</span>  kernel    2/18
+  <span class="bold">TCPv6</span>          <span class="cyan">ipv6</span>        2496  <span class="green">    31</span>         0 no         320  <span class="cyan">yes</span>  kernel   17/18
+  <span class="bold">UNIX</span>           <span class="yellow">unix</span>        1024  <span class="green">    14</span>         - <span class="dim">NI</span>           0  <span class="cyan">yes</span>  kernel    1/18
+  <span class="bold">NETLINK</span>        <span class="magenta">netlink</span>     1080  <span class="green">    11</span>         - <span class="dim">NI</span>           0  <span class="dim">no</span>   kernel    0/18
+  <span class="bold">UDP</span>            <span class="green">ipv4</span>        1152  <span class="green">     6</span>      8192 no           0  <span class="cyan">yes</span>  kernel   13/18
+  <span class="bold">UDPv6</span>          <span class="cyan">ipv6</span>        1344  <span class="green">     4</span>         0 <span class="dim">NI</span>           0  <span class="cyan">yes</span>  kernel   13/18
+  <span class="bold">MPTCP</span>          <span class="green">ipv4</span>        1936  <span class="green">     2</span>         0 no           0  <span class="cyan">yes</span>  kernel   14/18
+  <span class="bold">PACKET</span>         <span class="blue">packet</span>      1536  <span class="green">     2</span>         - <span class="dim">NI</span>           0  <span class="dim">no</span>   kernel    0/18
+  <span class="bold">MPTCPv6</span>        <span class="cyan">ipv6</span>        2096  <span class="green">     1</span>         0 no           0  <span class="cyan">yes</span>  kernel   14/18
+  <span class="bold">PING</span>           <span class="green">ipv4</span>         976  <span class="green">     1</span>         - <span class="dim">NI</span>           0  <span class="cyan">yes</span>  kernel   13/18
+  <span class="bold">XDP</span>            <span class="red">xdp</span>          960  <span class="dim">     0</span>         - <span class="dim">NI</span>           0  <span class="dim">no</span>   kernel    0/18
+</pre>
+  <div class="cmd">
+    <div class="line">$ ./protocols-watch --active --ops</div>
+    <div class="line">$ ./protocols-watch --json | python3 -m json.tool</div>
+    <div class="line">$ ./protocols-watch --file sample-protocols.table --no-color</div>
+    <div class="line">$ ./protocols-watch --selftest</div>
+  </div>
+  <div class="notes">C++23 · zero deps · /proc/net/protocols · 18 proto_ops flags (cl/co/di/ac/io/in/de/sh/ss/gs/se/re/bi/br/ha/uh/gp/em) · 74 selftests</div>
+  <div class="prompt">cristian@vps:~/protocols-watch $ █</div>
+</div>
+</body>
+</html>
